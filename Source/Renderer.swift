@@ -1,5 +1,4 @@
 import AppKit
-import Metal
 import MetalKit
 import simd
 
@@ -60,7 +59,7 @@ class Renderer: NSObject, VCDelegate, VDelegate {
         do {
             if #available(OSX 10.12, *) {
                 let tLoad = MTKTextureLoader(device:gDevice)
-                try png2 = tLoad.newTexture(withName:"p19", scaleFactor:1, bundle: Bundle.main, options:nil)
+                try png2 = tLoad.newTexture(withName:"p19", scaleFactor:1, bundle: .main, options:nil)
             }
         } catch {
             fatalError("\n\nload txt failed\n\n")
@@ -80,18 +79,25 @@ class Renderer: NSObject, VCDelegate, VDelegate {
             constants.append(gDevice.makeBuffer(length: constantsSize, options: []))
         }
 
-        let sampler = MTLSamplerDescriptor()
-        sampler.minFilter             = MTLSamplerMinMagFilter.nearest
-        sampler.magFilter             = MTLSamplerMinMagFilter.nearest
-        sampler.mipFilter             = MTLSamplerMipFilter.nearest
-        sampler.maxAnisotropy         = 1
-        sampler.sAddressMode          = MTLSamplerAddressMode.repeat
-        sampler.tAddressMode          = MTLSamplerAddressMode.repeat
-        sampler.rAddressMode          = MTLSamplerAddressMode.repeat
-        sampler.normalizedCoordinates = true
-        sampler.lodMinClamp           = 0
-        sampler.lodMaxClamp           = .greatestFiniteMagnitude
+        let sampler = SamplerDescription()
+
         samplerState = gDevice.makeSamplerState(descriptor: sampler)
+    }
+
+    class SamplerDescription : MTLSamplerDescriptor {
+        override init() {
+            super.init()
+            minFilter = .nearest
+            magFilter = .nearest
+            mipFilter = .nearest
+            maxAnisotropy = 1
+            sAddressMode = .repeat
+            tAddressMode = .repeat
+            rAddressMode = .repeat
+            normalizedCoordinates = true
+            lodMinClamp = 0
+            lodMaxClamp = .greatestFiniteMagnitude
+        }
     }
 
     func preparePipelineState(_ view: AAPLView) {
@@ -128,7 +134,7 @@ class Renderer: NSObject, VCDelegate, VDelegate {
     var lAngle = Float(0)
 
     func render(_ view: AAPLView) {
-        _ = semaphore.wait(timeout: DispatchTime.distantFuture)
+        _ = semaphore.wait(timeout: .distantFuture)
         let commandBuffer = gQueue?.makeCommandBuffer()
         let renderPassDescriptor = view.renderPassDescriptor
         let renderEncoder = commandBuffer?.makeRenderCommandEncoder(descriptor: renderPassDescriptor!)
