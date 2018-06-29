@@ -15,7 +15,7 @@ class World {
             case " " : style = (style == .line) ? .triangle : .line
             default : break
         }
-        
+
         dirty = true
     }
 }
