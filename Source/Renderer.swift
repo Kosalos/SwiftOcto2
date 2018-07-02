@@ -51,7 +51,7 @@ class Renderer: NSObject, VCDelegate, VDelegate {
        // Swift.print("ConstantSize = ",constantsSize,",  TVertex Size = ",tVertexSize )
 
         gDevice = view.device
-        guard let gDevice = gDevice else {  fatalError("MTL device not found")  }
+        guard let gDevice = gDevice else { fatalError("MTL device not found")  }
 
         view.depthPixelFormat = .depth32Float
         view.stencilPixelFormat = .invalid

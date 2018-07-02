@@ -151,7 +151,7 @@ class AAPLView: NSView {
             if _layerSizeDidUpdate {
                 var drawableSize = self.bounds.size
 
-                    let screen = self.window?.screen ?? NSScreen.main()
+                    let screen = self.window?.screen ?? .main()
                     drawableSize.width *= screen?.backingScaleFactor ?? 1.0
                     drawableSize.height *= screen?.backingScaleFactor ?? 1.0
 

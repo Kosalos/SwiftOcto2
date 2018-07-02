@@ -61,9 +61,9 @@ class ArcBall {
     func copyMatrixToQuaternion(_ oldQuat:float4x4,_ m1:float3x3) -> float4x4 {
         var ans = oldQuat
         for i in 0 ..< 3 {
-            ans[i].x = m1[i].x;
-            ans[i].y = m1[i].y;
-            ans[i].z = m1[i].z;
+            ans[i].x = m1[i].x
+            ans[i].y = m1[i].y
+            ans[i].z = m1[i].z
         }
 
         return ans
@@ -71,7 +71,7 @@ class ArcBall {
 
     func mapToSphere(_ cgPt:NSPoint) -> float3 {
         var tempPt = float2(Float(cgPt.x),Float(cgPt.y))
-        tempPt.x  = (tempPt.x * adjustWidth ) - 1
+        tempPt.x  = (tempPt.x * adjustWidth) - 1
         tempPt.y  = (tempPt.y * adjustHeight) - 1
 
         let length:Float = (tempPt.x * tempPt.x) + (tempPt.y * tempPt.y)
@@ -103,7 +103,7 @@ class ArcBall {
     func mouseMove(_ cgPt:CGPoint) {
         endVertex = mapToSphere(cgPt)
 
-        var Perp = cross(startVertex,endVertex)
+        var Perp = cross(startVertex, endVertex)
 
         var newRot = float4()
 
@@ -111,11 +111,11 @@ class ArcBall {
             newRot.x = Perp.x
             newRot.y = Perp.y
             newRot.z = Perp.z
-            newRot.w = dot(startVertex,endVertex)
+            newRot.w = dot(startVertex, endVertex)
         }
 
         endPosition = quaternionToMatrix(newRot) * startPosition
-        transformMatrix = copyMatrixToQuaternion(transformMatrix,endPosition)
+        transformMatrix = copyMatrixToQuaternion(transformMatrix, endPosition)
     }
 }
 
