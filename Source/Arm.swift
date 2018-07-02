@@ -7,14 +7,14 @@ class CircleData {
     var angle = float2()
     var width = Float()
     init(_ nwidth:Float, _ ndist:Float) { width = nwidth; dist = ndist }
-};
+}
 
 let ARM_MAX_CIRCLE = 165        // arm length
 let ATOUCH = ARM_MAX_CIRCLE-6   // which am data entry IK is trying to move to position
 let NUM_GENTRY = 20             // #positions along arm length where IK is performed
 
 var aDiff:Float = 0.001         // arm movement amount
-var cd = Array<CircleData>()
+var cd = [CircleData]()
 var style:MTLPrimitiveType = .line
 var target:float3 = float3(1,14,0)
 
@@ -57,8 +57,7 @@ class GoalEntry {
     }
 
     func relax() {
-        angle.x *= 0.99
-        angle.y *= 0.99
+        angle *= 0.99
     }
 }
 
@@ -126,14 +125,14 @@ class Goal {
 }
 
 let goal = Goal()
-var cData = Array<TVertex>()    // circle points
+var cData = [TVertex]()    // circle points
 
 class Arm {
     var cBuffer: MTLBuffer?
     var vBuffer: MTLBuffer?
     var iBuffer: MTLBuffer?
-    var vData = Array<TVertex>()    // vertices
-    var iData = Array<UInt16>()     // indices
+    var vData = [TVertex]()    // vertices
+    var iData = [UInt16]()     // indices
     var numSides:Int = 32
     var autoAngle:Float = 0
     var baseYrot:Float = 0

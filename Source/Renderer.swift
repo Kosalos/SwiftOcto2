@@ -95,9 +95,9 @@ class Renderer: NSObject, VCDelegate, VDelegate {
     }
 
     func preparePipelineState(_ view: AAPLView) {
-        guard let _defaultLibrary = gDevice!.newDefaultLibrary() else {  NSLog(">> ERROR: Couldnt create a default shader library"); fatalError() }
-        guard let vertexProgram = _defaultLibrary.makeFunction(name: "texturedVertexShader") else {  NSLog("V shader load"); fatalError() }
-        guard let fragmentProgram = _defaultLibrary.makeFunction(name: "texturedFragmentShader") else {  NSLog("F shader load"); fatalError() }
+        guard let _defaultLibrary = gDevice!.newDefaultLibrary() else { NSLog(">> ERROR: Couldnt create a default shader library"); fatalError() }
+        guard let vertexProgram = _defaultLibrary.makeFunction(name: "texturedVertexShader") else { NSLog("V shader load"); fatalError() }
+        guard let fragmentProgram = _defaultLibrary.makeFunction(name: "texturedFragmentShader") else { NSLog("F shader load"); fatalError() }
 
         let pipelineStateDescriptor = MTLRenderPipelineDescriptor()
         pipelineStateDescriptor.label  = "MyPipeline"
@@ -119,7 +119,7 @@ class Renderer: NSObject, VCDelegate, VDelegate {
         //        psd.destinationAlphaBlendFactor = .oneMinusSourceAlpha
 
         do {  _pipelineState = try gDevice?.makeRenderPipelineState(descriptor: pipelineStateDescriptor)
-        } catch let error as NSError {  NSLog(">> ERROR: Failed Aquiring pipeline state: \(error)"); fatalError() }
+        } catch let error as NSError { NSLog(">> ERROR: Failed Aquiring pipeline state: \(error)"); fatalError() }
     }
 
     //MARK: - Render
