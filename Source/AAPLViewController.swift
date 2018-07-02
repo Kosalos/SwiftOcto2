@@ -45,7 +45,7 @@ class AAPLViewController: NSViewController {
         _renderer = Renderer()
         self.delegate = _renderer
 
-        _displaySource = DispatchSource.makeUserDataAddSource(queue: DispatchQueue.main)
+        _displaySource = DispatchSource.makeUserDataAddSource(queue: .main)
         _displaySource!.setEventHandler {[weak self] in
             self?.gameloop()
         }
@@ -57,7 +57,7 @@ class AAPLViewController: NSViewController {
         cvReturn = CVDisplayLinkSetOutputCallback(_displayLink!, dispatchGameLoop, Unmanaged.passUnretained(_displaySource!).toOpaque())
         assert(cvReturn == kCVReturnSuccess)
 
-        cvReturn = CVDisplayLinkSetCurrentCGDisplay(_displayLink!, CGMainDisplayID () )
+        cvReturn = CVDisplayLinkSetCurrentCGDisplay(_displayLink!, CGMainDisplayID())
         assert(cvReturn == kCVReturnSuccess)
 
         interval = 1
@@ -109,25 +109,24 @@ class AAPLViewController: NSViewController {
     }
 
     var paused: Bool {
-        set(pause) {
-            if _gameLoopPaused == pause {
+        get {
+            return _gameLoopPaused
+        }
+        set {
+            if _gameLoopPaused == newValue {
                 return
             }
 
             if _displayLink != nil {
                 // inform the delegate we are about to pause
-                delegate?.viewController(self, willPause: pause)
+                delegate?.viewController(self, willPause: newValue)
 
-                if pause {
+                if newValue {
                     CVDisplayLinkStop(_displayLink!)
                 } else {
                     CVDisplayLinkStart(_displayLink!)
                 }
             }
-        }
-
-        get {
-            return _gameLoopPaused
         }
     }
 

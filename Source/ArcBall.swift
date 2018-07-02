@@ -74,7 +74,7 @@ class ArcBall {
 
         var ans = float3()
 
-        if(length > 1) {
+        if length > 1 {
             let norm:Float = 1 / sqrtf(length)
             ans.x = tempPt.x * norm
             ans.y = tempPt.y * norm
@@ -89,18 +89,6 @@ class ArcBall {
         return ans
     }
 
-    func vector3fCross(_ v1 :float3, _ v2:float3) -> float3 {
-        var ans = float3()
-        ans.x = (v1.y * v2.z) - (v1.z * v2.y)
-        ans.y = (v1.z * v2.x) - (v1.x * v2.z)
-        ans.z = (v1.x * v2.y) - (v1.y * v2.x)
-        return ans
-    }
-
-    func vector3fDot(_ v1 :float3, _ v2:float3) -> Float {  return Float(v1.x*v2.x + v1.y*v2.y + v1.z*v2.z) }
-    func vector3fLengthSquared(_ v:float3) -> Float { return Float(v.x*v.x + v.y*v.y + v.z*v.z) }
-    func vector3fLength(_ v:float3) -> Float { return sqrtf( vector3fLengthSquared(v)) }
-
     func mouseDown(_ cgPt:CGPoint) {
         startVertex = mapToSphere(cgPt)
         startPosition = endPosition
@@ -111,15 +99,15 @@ class ArcBall {
     func mouseMove(_ cgPt:CGPoint) {
         endVertex = mapToSphere(cgPt)
 
-        var Perp = vector3fCross(startVertex,endVertex)
+        var Perp = cross(startVertex,endVertex)
 
         var newRot = float4()
 
-        if vector3fLength(Perp) > Epsilon {
+        if length(Perp) > Epsilon {
             newRot.x = Perp.x
             newRot.y = Perp.y
             newRot.z = Perp.z
-            newRot.w = vector3fDot(startVertex,endVertex)
+            newRot.w = dot(startVertex,endVertex)
         }
 
         endPosition = quaternionToMatrix(newRot) * startPosition
