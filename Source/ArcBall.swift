@@ -7,6 +7,10 @@ extension float3x3 {
     static let identity = matrix_identity_float3x3
 }
 
+extension float4x4 {
+    static let identity = matrix_identity_float4x4
+}
+
 class ArcBall {
     var transformMatrix = float4x4()
     var startPosition = float3x3()
@@ -21,7 +25,7 @@ class ArcBall {
     func initialize(_ newWidth:Float, _ newHeight:Float) {
         width = newWidth
         height = newHeight
-        transformMatrix = float4x4(diagonal:[1,1,1,1])
+        transformMatrix = .identity
         startPosition = .identity
         endPosition = .identity
         transformMatrix = copyMatrixToQuaternion(transformMatrix,endPosition)

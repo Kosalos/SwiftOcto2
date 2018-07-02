@@ -53,7 +53,7 @@ class Renderer: NSObject, VCDelegate, VDelegate {
         gDevice = view.device
         guard let gDevice = gDevice else {  fatalError("MTL device not found")  }
 
-        view.depthPixelFormat   = .depth32Float
+        view.depthPixelFormat = .depth32Float
         view.stencilPixelFormat = .invalid
 
         do {
@@ -79,25 +79,19 @@ class Renderer: NSObject, VCDelegate, VDelegate {
             constants.append(gDevice.makeBuffer(length: constantsSize, options: []))
         }
 
-        let sampler = SamplerDescription()
+        let sampler = MTLSamplerDescriptor()
+        sampler.minFilter = .nearest
+        sampler.magFilter = .nearest
+        sampler.mipFilter = .nearest
+        sampler.maxAnisotropy = 1
+        sampler.sAddressMode = .repeat
+        sampler.tAddressMode = .repeat
+        sampler.rAddressMode = .repeat
+        sampler.normalizedCoordinates = true
+        sampler.lodMinClamp = 0
+        sampler.lodMaxClamp = .greatestFiniteMagnitude
 
         samplerState = gDevice.makeSamplerState(descriptor: sampler)
-    }
-
-    class SamplerDescription : MTLSamplerDescriptor {
-        override init() {
-            super.init()
-            minFilter = .nearest
-            magFilter = .nearest
-            mipFilter = .nearest
-            maxAnisotropy = 1
-            sAddressMode = .repeat
-            tAddressMode = .repeat
-            rAddressMode = .repeat
-            normalizedCoordinates = true
-            lodMinClamp = 0
-            lodMaxClamp = .greatestFiniteMagnitude
-        }
     }
 
     func preparePipelineState(_ view: AAPLView) {
