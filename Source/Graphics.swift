@@ -3,11 +3,11 @@ import Cocoa
 struct Position {
     var x:Int = 0
     var y:Int = 0
-    
+
     init() {}
     init(_ x:Int, _ y:Int) { self.x = x; self.y = y }
     func cgPoint() -> CGPoint { return CGPoint(x:x, y:y) }
-    
+
     static func + (left: Position, right: Position) -> Position { return Position(left.x + right.x, left.y + right.y) }
     static func += (left: inout Position, right: Position) { left = left + right }
 }
@@ -26,7 +26,7 @@ let colorBlack = NSColor(red:0, green:0, blue:0, alpha:1).cgColor
 let colorNearBlack = NSColor(red:0.2, green:0.2, blue:0.04, alpha:1).cgColor
 let colorGray0 = NSColor(red:0.3, green:0.3, blue:0.5, alpha:1).cgColor
 
-let font = NSFont.init(name: "Helvetica", size: 10)!
+let font = NSFont(name: "Helvetica", size: 10)!
 let atts = [NSFontAttributeName:font] // , NSForegroundColorAttributeName:NSColor(red:1, green:1, blue:1, alpha:1)]
 
 func drawString(_ str:String, _ x:Int, _ y:Int) {
@@ -58,7 +58,7 @@ func drawLine(_ p1:Position, _ p2:Position, _ color:CGColor) {
 	let path = CGMutablePath()
 	path.move( to: p1.cgPoint())
 	path.addLine(to: p2.cgPoint())
-	
+
 	context?.setLineWidth(1.0)
 	context?.setStrokeColor(color)
 	context?.addPath(path)
